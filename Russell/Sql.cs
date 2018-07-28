@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.OleDb;
 using System.IO;
 
 namespace Russell
@@ -79,11 +80,13 @@ namespace Russell
 
             List<DataJob> listDataJob = new List<DataJob>();
 
-            using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            //using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                //using (SqlCommand comm = new SqlCommand())
+                using (OleDbCommand comm = new OleDbCommand())
                 {
 
                     StringBuilder sb = new StringBuilder();
@@ -101,7 +104,8 @@ namespace Russell
 
                     DataJob dj = new DataJob();
 
-                    using (SqlDataReader reader = comm.ExecuteReader())
+                    //using (SqlDataReader reader = comm.ExecuteReader())
+                    using (OleDbDataReader reader = comm.ExecuteReader())
                     {
                         sb.Clear();
                         DateTime date;
@@ -154,11 +158,13 @@ namespace Russell
             int newJobId = 0;
             List<DataJob> listDataJob = new List<DataJob>();
 
-            using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            //using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                //using (SqlCommand comm = new SqlCommand())
+                using (OleDbCommand comm = new OleDbCommand())
                 {
 
                     StringBuilder sb = new StringBuilder();
@@ -192,11 +198,13 @@ namespace Russell
 
         public Dictionary<string, int> GetAgencies()
         {
-            using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            //using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                using (SqlCommand comm = new SqlCommand())
+                //using (SqlCommand comm = new SqlCommand())
+                using (OleDbCommand comm = new OleDbCommand())
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine("SELECT AgencyName, AgencyId ");
@@ -208,7 +216,8 @@ namespace Russell
 
                     Dictionary<string, int> agencies = new Dictionary<string, int>();
 
-                    using (SqlDataReader reader = comm.ExecuteReader())
+                    //using (SqlDataReader reader = comm.ExecuteReader())
+                    using (OleDbDataReader reader = comm.ExecuteReader())
                     {
                         while (reader.Read())
                         {

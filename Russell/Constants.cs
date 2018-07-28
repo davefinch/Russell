@@ -27,8 +27,9 @@ namespace Russell
         {
             StartupFolder = ConfigurationManager.AppSettings["StartupFolder"];
 
-            ConnectionString = ConfigurationManager.ConnectionStrings["JO"].ConnectionString;
-            
+            //ConnectionString = ConfigurationManager.ConnectionStrings["JO"].ConnectionString;
+            ConnectionString = ConfigurationManager.ConnectionStrings["Joe"].ConnectionString;
+
             UserFullName = UserPrincipal.Current.DisplayName;
 
             // Should get this from the DB but only one user for now

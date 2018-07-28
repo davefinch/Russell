@@ -52,7 +52,7 @@ namespace Russell
 
             using (Sql sql = new Sql())
             {
-                // Do validation
+                // Do validation first so we know we've got everything
                 dj.EmployeeId = Constants.UserId;
                 dj.AgencyId = Convert.ToInt32(comboBoxAgency.SelectedValue);
                 dj.JobDetails = textBoxjobDetails.Text;
