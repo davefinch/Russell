@@ -42,6 +42,7 @@ namespace Russell
                     //row.Cells["AgencyId"].Value = item.AgencyId;
                     dataGridViewJobs.Rows[index].Cells["JobDetails"].Value = item.JobDetails;
 
+
                     //row.Cells[dataGridViewJobs.Columns["JobDetails"].Index].Value = item.JobDetails;
                     //dataGridViewJobs.Rows.Add(row);
                 }

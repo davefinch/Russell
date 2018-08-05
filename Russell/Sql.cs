@@ -100,15 +100,16 @@ namespace Russell
                     //comm.Parameters.Clear();
                     //comm.Parameters.AddWithValue("@RegNumber", regNumber);
 
-                    DataJob dj = new DataJob();
+
 
                     using (SqlDataReader reader = comm.ExecuteReader())
                     {
                         sb.Clear();
-                        DateTime date;
 
                         while (reader.Read())
                         {
+                            DataJob dj = new DataJob();
+
                             // Assign our Output Variables
                             dj.JobId = Convert.ToInt32(reader["JobId"]);
 
