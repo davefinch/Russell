@@ -12,8 +12,8 @@ namespace Russell
 {
     public partial class Form1 : Form
     {
-        //private List<DataJob> _jobs = new List<DataJob>();
-        private BindingSource sr = new BindingSource();
+        DateTimePicker dtp = new DateTimePicker();  //DateTimePicker  
+        Rectangle _Rectangle;
 
         public Form1()
         {
@@ -29,6 +29,14 @@ namespace Russell
             {
                 List<DataJob> listDataJob = new List<DataJob>();
 
+                //Format the dgv date fields
+                DateTimePicker dtp = new DateTimePicker();  //DateTimePicker  
+                dtp.Format = DateTimePickerFormat.Custom;
+
+
+
+                dataGridViewJobs.Columns[5].DefaultCellStyle.Format = "dd/mm/yyyy";
+                dataGridViewJobs.Columns[6].DefaultCellStyle.Format = "dd/mm/yyyy";
 
                 // Function determined by the type of db we are connecting to
                 if (Constants.DBMS == "MSSQL") { listDataJob = sql.SQLGetJobs(); } else { listDataJob = sql.OLEGetJobs(); }
@@ -73,6 +81,61 @@ namespace Russell
 
 
         }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 4 || e.ColumnIndex == 5)   // here 4 and 5 are the date columns in datagridview1
+            {
+                dataGridViewJobs.Controls.Add(dtp);
+                dtp.Value = Convert.ToDateTime(dataGridViewJobs.CurrentCell.Value.ToString());
+                dtp.CustomFormat = "dd/MM/yyyy";    // change the custom format here to display on the datetimepicker
+                dtp.TextChanged += new EventHandler(dtp_TextChange); //dtp_TextChange
+                dtp.Visible = true;  //  
+
+
+                _Rectangle = dataGridViewJobs.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true); //  
+                dtp.Size = new Size(_Rectangle.Width, _Rectangle.Height); //  
+                dtp.Location = new Point(_Rectangle.X, _Rectangle.Y); //  
+
+                dtp.CloseUp += new EventHandler(dtp_CloseUp);
+
+            }
+            else
+                dtp.Visible = false;
+        }
+
+
+        private void dtp_TextChange(object sender, EventArgs e)
+        {
+            dataGridViewJobs.CurrentCell.Value = dtp.Value.ToString();  //
+        }
+
+        private void dtp_CloseUp(object sender, EventArgs e)
+        {
+            dtp.Visible = false;
+        }
+
+
+        private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            dtp.Visible = false;
+        }
+
+        private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
+        {
+            dtp.Visible = false;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         private void dataGridViewJobs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

@@ -198,6 +198,7 @@ namespace Russell
 
                             int ordinal = reader.GetOrdinal("StartJob");
                             dj.StartJob = reader.IsDBNull(ordinal) ? (DateTime?)null : Convert.ToDateTime(reader["StartJob"]);
+
                             ordinal = reader.GetOrdinal("EndJob");
                             dj.EndJob = reader.IsDBNull(ordinal) ? (DateTime?)null : Convert.ToDateTime(reader["EndJob"]);
 
