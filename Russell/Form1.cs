@@ -23,15 +23,25 @@ namespace Russell
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'jODataSet.Job' table. You can move, or remove it, as needed.
-            //this.jobTableAdapter.Fill(this.jODataSet.Job);
 
-            Dictionary<string, int> listAgency = new Dictionary<string, int>();
-
-            //MessageBox.Show("Does this show");
-
+            // Load up the DataGrid
             using (Sql sql = new Sql())
             {
+                DataJob dataJob = new DataJob();
+
+
+                // Function determined by the type of db we are connecting to
+                if (Constants.DBMS == "MSSQL") { dataJob = sql.SQLGetJobs(); } else { dataJob = sql.OLEGetJobs(); }
+
+                foreach 
+
+            }
+
+
+            // Load up the Agency Combo Box
+            using (Sql sql = new Sql())
+            {
+                Dictionary<string, int> listAgency = new Dictionary<string, int>();
 
                 // Function determined by the type of db we are connecting to
                 if (Constants.DBMS == "MSSQL") { listAgency = sql.SQLGetAgencies(); } else { listAgency = sql.OLEGetAgencies(); }
@@ -39,9 +49,9 @@ namespace Russell
                 comboBoxAgency.DataSource = listAgency.ToList();
                 comboBoxAgency.DisplayMember = "Key";
                 comboBoxAgency.ValueMember = "Value";
-
-
             }
+
+
         }
 
         private void dataGridViewJobs_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -69,10 +79,15 @@ namespace Russell
 
                 //Insert Job
                 // Function determined by the type of db we are connecting to
-                if (Constants.DBMS == "MSSQL") { newFileId = sql.SQLInsertNewJob(dj); } else { newFileId = sql.OLEInsertNewJob(dj); ; }
+                if (Constants.DBMS == "MSSQL") { newFileId = sql.SQLInsertNewJob(dj); } else { sql.OLEInsertNewJob(dj); ; }
                 //newFileId = sql.InsertNewJob(dj);
                 //MessageBox.Show(newFileId.ToString());
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

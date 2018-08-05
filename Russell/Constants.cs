@@ -28,8 +28,8 @@ namespace Russell
         {
             StartupFolder = ConfigurationManager.AppSettings["StartupFolder"];
 
-            //ConnectionString = ConfigurationManager.ConnectionStrings["JO"].ConnectionString;
-            ConnectionString = ConfigurationManager.ConnectionStrings["Joe"].ConnectionString;
+            ConnectionString = ConfigurationManager.ConnectionStrings["JO"].ConnectionString;
+           //ConnectionString = ConfigurationManager.ConnectionStrings["Joe"].ConnectionString;
 
             UserFullName = UserPrincipal.Current.DisplayName;
 

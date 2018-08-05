@@ -258,9 +258,9 @@ namespace Russell
             }
         }
 
-        public int OLEInsertNewJob(DataJob dj)
+        public void OLEInsertNewJob(DataJob dj)
         {
-            int newJobId = 0;
+            //int newJobId = 0;
             List<DataJob> listDataJob = new List<DataJob>();
 
             using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
@@ -287,9 +287,9 @@ namespace Russell
                     comm.Parameters.AddWithValue("@PaymentReceivedDate", dj.EmployeeId);
                     comm.Parameters.AddWithValue("@TotalPaymentReceived", dj.EmployeeId);
 
-                    newJobId = Convert.ToInt32(comm.ExecuteScalar());
+                    comm.ExecuteScalar();
 
-                    return newJobId;
+                    return;
                 }
             }
         }
