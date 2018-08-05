@@ -28,12 +28,14 @@ namespace Russell
 
             Dictionary<string, int> listAgency = new Dictionary<string, int>();
 
-            MessageBox.Show("Does this show");
+            //MessageBox.Show("Does this show");
 
             using (Sql sql = new Sql())
             {
 
-                listAgency = sql.GetAgencies();
+                // Function determined by the type of db we are connecting to
+                if (Constants.DBMS == "MSSQL") { listAgency = sql.SQLGetAgencies(); } else { listAgency = sql.OLEGetAgencies(); }
+
                 comboBoxAgency.DataSource = listAgency.ToList();
                 comboBoxAgency.DisplayMember = "Key";
                 comboBoxAgency.ValueMember = "Value";
@@ -66,8 +68,10 @@ namespace Russell
                 dj.TotalPaymentReceived = Convert.ToDecimal(textBoxTotalPayment.Text);
 
                 //Insert Job
-                newFileId = sql.InsertNewJob(dj);
-                MessageBox.Show(newFileId.ToString());
+                // Function determined by the type of db we are connecting to
+                if (Constants.DBMS == "MSSQL") { newFileId = sql.SQLInsertNewJob(dj); } else { newFileId = sql.OLEInsertNewJob(dj); ; }
+                //newFileId = sql.InsertNewJob(dj);
+                //MessageBox.Show(newFileId.ToString());
             }
         }
     }

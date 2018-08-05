@@ -73,7 +73,7 @@ namespace Russell
             return "Sql Class";
         }
 
-        public DataJob GetJobs()
+        public DataJob SQLGetJobs()
         {
             // Assign Empty Values
 
@@ -152,24 +152,126 @@ namespace Russell
 
         }
 
-
-        public int InsertNewJob(DataJob dj)
+        public DataJob OLEGetJobs()
         {
-            int newJobId = 0;
+            // Assign Empty Values
             List<DataJob> listDataJob = new List<DataJob>();
 
-            //using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
             using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                //using (SqlCommand comm = new SqlCommand())
+                using (OleDbCommand comm = new OleDbCommand())
+                {
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("SELECT j.JobId, j.EmployeeId, e.FirstName, e.LastName, j.AgencyId, a.AgencyName, j.JobDetails, ");
+                    sb.AppendLine("j.StartJob, j.EndJob, j.hours, j.Rate, j.PaymentReceivedDate, j.TotalPaymentReceived  ");
+                    sb.AppendLine("FROM Job j INNER JOIN ");
+                    sb.AppendLine("Employee e ON e.EmployeeId = j.EmployeeId INNER JOIN ");
+                    sb.AppendLine("Agency a ON a.AgencyId = j.AgencyId");
+                    sb.AppendLine("ORDER BY j.StartJob DESC");
+
+                    comm.CommandText = sb.ToString();
+                    comm.Connection = conn;
+                    //comm.Parameters.Clear();
+                    //comm.Parameters.AddWithValue("@RegNumber", regNumber);
+
+                    DataJob dj = new DataJob();
+
+                    using (OleDbDataReader reader = comm.ExecuteReader())
+                    {
+                        sb.Clear();
+                        DateTime date;
+
+                        while (reader.Read())
+                        {
+                            // Assign our Output Variables
+                            dj.JobId = Convert.ToInt32(reader["JobId"]);
+
+                            dj.EmployeeId = Convert.ToInt32(reader["EmployeeId"]);
+                            dj.EmployeeFirstName = reader["FirstName"].ToString();
+                            dj.EmployeeLastName = reader["LastName"].ToString();
+
+                            dj.AgencyId = Convert.ToInt32(reader["AgencyId"]);
+                            dj.AgencyName = reader["AgencyName"].ToString();
+
+                            dj.JobDetails = reader["JobDetails"].ToString();
+
+                            int ordinal = reader.GetOrdinal("StartJob");
+                            dj.StartJob = reader.IsDBNull(ordinal) ? (DateTime?)null : Convert.ToDateTime(reader["StartJob"]);
+                            ordinal = reader.GetOrdinal("EndJob");
+                            dj.EndJob = reader.IsDBNull(ordinal) ? (DateTime?)null : Convert.ToDateTime(reader["EndJob"]);
+
+                            dj.Hours = Convert.ToInt32(reader["Hours"]);
+                            dj.Rate = Convert.ToDecimal(reader["Rate"]);
+
+                            ordinal = reader.GetOrdinal("PaymentReceivedDate");
+                            dj.EndJob = reader.IsDBNull(ordinal) ? (DateTime?)null : Convert.ToDateTime(reader["PaymentReceivedDate"]);
+                            //ordinal = reader.GetOrdinal("TotalPaymentReceived");
+                            //dj.TotalPaymentReceived = reader.IsDBNull(ordinal) ? (DateTime?)null : Convert.ToDecimal(reader["TotalPaymentReceived"]);
+
+
+                            // Add to the DataRecord
+                            listDataJob.Add(dj);
+                        }
+                    }
+                    return dj;
+                }
+            }
+        }
+
+
+        public int SQLInsertNewJob(DataJob dj)
+        {
+            int newJobId = 0;
+            List<DataJob> listDataJob = new List<DataJob>();
+
+            using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("INSERT INTO Job (EmployeeId, AgencyId, JobDetails, StartJob, Endjob, Hours, Rate, PaymentReceivedDate, TotalPaymentReceived) ");
+                    sb.AppendLine("OUTPUT Inserted.JobId ");
+                    sb.AppendLine("VALUES (@EmployeeId, @AgencyId, @JobDetails, @StartJob, @EndJob, @Hours, @Rate, @PaymentReceivedDate, @TotalPaymentReceived) ");
+
+                    comm.CommandText = sb.ToString();
+                    comm.Connection = conn;
+                    comm.Parameters.Clear();
+                    comm.Parameters.AddWithValue("@EmployeeId", dj.EmployeeId);
+                    comm.Parameters.AddWithValue("@AgencyId", dj.AgencyId);
+                    comm.Parameters.AddWithValue("@JobDetails", dj.JobDetails);
+                    comm.Parameters.AddWithValue("@StartJob", dj.StartJob);
+                    comm.Parameters.AddWithValue("@Endjob", dj.EndJob);
+                    comm.Parameters.AddWithValue("@Hours", dj.Hours);
+                    comm.Parameters.AddWithValue("@Rate", dj.Rate);
+                    comm.Parameters.AddWithValue("@PaymentReceivedDate", dj.EmployeeId);
+                    comm.Parameters.AddWithValue("@TotalPaymentReceived", dj.EmployeeId);
+
+                    newJobId = Convert.ToInt32(comm.ExecuteScalar());
+
+                    return newJobId;
+                }
+            }
+        }
+
+        public int OLEInsertNewJob(DataJob dj)
+        {
+            int newJobId = 0;
+            List<DataJob> listDataJob = new List<DataJob>();
+
+            using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
                 using (OleDbCommand comm = new OleDbCommand())
                 {
 
                     StringBuilder sb = new StringBuilder();
                     sb.AppendLine("INSERT INTO Job (EmployeeId, AgencyId, JobDetails, StartJob, Endjob, Hours, Rate, PaymentReceivedDate, TotalPaymentReceived) ");
-                    sb.AppendLine("OUTPUT Inserted.JobId ");
                     sb.AppendLine("VALUES (@EmployeeId, @AgencyId, @JobDetails, @StartJob, @EndJob, @Hours, @Rate, @PaymentReceivedDate, @TotalPaymentReceived) ");
                     
                     comm.CommandText = sb.ToString();
@@ -188,22 +290,48 @@ namespace Russell
                     newJobId = Convert.ToInt32(comm.ExecuteScalar());
 
                     return newJobId;
-
                 }
-
             }
-
         }
 
 
-        public Dictionary<string, int> GetAgencies()
+        public Dictionary<string, int> SQLGetAgencies()
         {
-            //using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
+            {
+                conn.Open();
+
+                using (SqlCommand comm = new SqlCommand())
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("SELECT AgencyName, AgencyId ");
+                    sb.AppendLine("FROM Agency ");
+                    sb.AppendLine("ORDER BY AgencyName");
+
+                    comm.CommandText = sb.ToString();
+                    comm.Connection = conn;
+
+                    Dictionary<string, int> agencies = new Dictionary<string, int>();
+
+                    using (SqlDataReader reader = comm.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            agencies.Add(reader["AgencyName"].ToString(), Convert.ToInt32(reader["AgencyId"]));
+                        }
+                    }
+                    return agencies;
+                }
+
+            }
+        }
+
+        public Dictionary<string, int> OLEGetAgencies()
+        {
             using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                //using (SqlCommand comm = new SqlCommand())
                 using (OleDbCommand comm = new OleDbCommand())
                 {
                     StringBuilder sb = new StringBuilder();
@@ -216,7 +344,6 @@ namespace Russell
 
                     Dictionary<string, int> agencies = new Dictionary<string, int>();
 
-                    //using (SqlDataReader reader = comm.ExecuteReader())
                     using (OleDbDataReader reader = comm.ExecuteReader())
                     {
                         while (reader.Read())
@@ -226,7 +353,6 @@ namespace Russell
                     }
                     return agencies;
                 }
-
             }
         }
 
