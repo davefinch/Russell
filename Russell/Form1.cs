@@ -35,8 +35,9 @@ namespace Russell
 
 
 
-                dataGridViewJobs.Columns[5].DefaultCellStyle.Format = "dd/mm/yyyy";
-                dataGridViewJobs.Columns[6].DefaultCellStyle.Format = "dd/mm/yyyy";
+                //Set the date formats
+                dataGridViewJobs.Columns["StartJob"].DefaultCellStyle.Format = "dd/MM/yyyy";
+                dataGridViewJobs.Columns["EndJob"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
                 // Function determined by the type of db we are connecting to
                 if (Constants.DBMS == "MSSQL") { listDataJob = sql.SQLGetJobs(); } else { listDataJob = sql.OLEGetJobs(); }
@@ -82,9 +83,9 @@ namespace Russell
 
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dataGridViewJobs_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 4 || e.ColumnIndex == 5)   // here 4 and 5 are the date columns in datagridview1
+            if (e.ColumnIndex == 5 || e.ColumnIndex == 6)   // here 5 and 6 are the date columns in datagridview1
             {
                 dataGridViewJobs.Controls.Add(dtp);
                 dtp.Value = Convert.ToDateTime(dataGridViewJobs.CurrentCell.Value.ToString());
@@ -116,12 +117,12 @@ namespace Russell
         }
 
 
-        private void dataGridView1_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        private void dataGridViewJobs_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
             dtp.Visible = false;
         }
 
-        private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
+        private void dataGridViewJobs_Scroll(object sender, ScrollEventArgs e)
         {
             dtp.Visible = false;
         }
@@ -133,14 +134,6 @@ namespace Russell
 
 
 
-
-
-
-
-        private void dataGridViewJobs_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -186,9 +179,6 @@ namespace Russell
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
 
-        }
     }
 }

@@ -90,7 +90,7 @@
             this.dataGridViewJobs.Name = "dataGridViewJobs";
             this.dataGridViewJobs.Size = new System.Drawing.Size(861, 481);
             this.dataGridViewJobs.TabIndex = 0;
-            this.dataGridViewJobs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridViewJobs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewJobs_CellContentClick);
             // 
             // jobBindingSource
             // 
