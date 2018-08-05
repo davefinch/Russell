@@ -97,7 +97,7 @@ namespace Russell
                 dj.PaymentReceivedDate = Convert.ToDateTime(dateTimePickerPaymentReceivedDate.Value);
                 dj.TotalPaymentReceived = Convert.ToDecimal(textBoxTotalPayment.Text);
 
-                //Insert Job to DB and dgv
+                //Insert Job to DB and dgv.
                 // Function determined by the type of db we are connecting to
                 if (Constants.DBMS == "MSSQL")
                 {
