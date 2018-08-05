@@ -73,20 +73,18 @@ namespace Russell
             return "Sql Class";
         }
 
-        public DataJob SQLGetJobs()
+        public List<DataJob> SQLGetJobs()
         {
             // Assign Empty Values
 
 
             List<DataJob> listDataJob = new List<DataJob>();
 
-            //using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
-            using (OleDbConnection conn = new OleDbConnection(Constants.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(Constants.ConnectionString))
             {
                 conn.Open();
 
-                //using (SqlCommand comm = new SqlCommand())
-                using (OleDbCommand comm = new OleDbCommand())
+                using (SqlCommand comm = new SqlCommand())
                 {
 
                     StringBuilder sb = new StringBuilder();
@@ -104,8 +102,7 @@ namespace Russell
 
                     DataJob dj = new DataJob();
 
-                    //using (SqlDataReader reader = comm.ExecuteReader())
-                    using (OleDbDataReader reader = comm.ExecuteReader())
+                    using (SqlDataReader reader = comm.ExecuteReader())
                     {
                         sb.Clear();
                         DateTime date;
@@ -144,7 +141,7 @@ namespace Russell
                         }
                     }
 
-                    return dj;
+                    return listDataJob;
 
                 }
 
@@ -152,7 +149,7 @@ namespace Russell
 
         }
 
-        public DataJob OLEGetJobs()
+        public List<DataJob> OLEGetJobs()
         {
             // Assign Empty Values
             List<DataJob> listDataJob = new List<DataJob>();
@@ -216,7 +213,7 @@ namespace Russell
                             listDataJob.Add(dj);
                         }
                     }
-                    return dj;
+                    return listDataJob;
                 }
             }
         }

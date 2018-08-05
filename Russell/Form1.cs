@@ -27,13 +27,24 @@ namespace Russell
             // Load up the DataGrid
             using (Sql sql = new Sql())
             {
-                DataJob dataJob = new DataJob();
+                List<DataJob> listDataJob = new List<DataJob>();
 
 
                 // Function determined by the type of db we are connecting to
-                if (Constants.DBMS == "MSSQL") { dataJob = sql.SQLGetJobs(); } else { dataJob = sql.OLEGetJobs(); }
+                if (Constants.DBMS == "MSSQL") { listDataJob = sql.SQLGetJobs(); } else { listDataJob = sql.OLEGetJobs(); }
 
-                foreach 
+                foreach (DataJob item in listDataJob)
+                {
+                    //DataGridViewRow row = (DataGridViewRow)dataGridViewJobs.Rows[0].Clone();
+
+                    var index = dataGridViewJobs.Rows.Add();
+
+                    //row.Cells["AgencyId"].Value = item.AgencyId;
+                    dataGridViewJobs.Rows[index].Cells["JobDetails"].Value = item.JobDetails;
+
+                    //row.Cells[dataGridViewJobs.Columns["JobDetails"].Index].Value = item.JobDetails;
+                    //dataGridViewJobs.Rows.Add(row);
+                }
 
             }
 
@@ -49,6 +60,9 @@ namespace Russell
                 comboBoxAgency.DataSource = listAgency.ToList();
                 comboBoxAgency.DisplayMember = "Key";
                 comboBoxAgency.ValueMember = "Value";
+
+                //Fill dgv combo box aswell
+                // dataGridViewJobs.Combobox
             }
 
 
