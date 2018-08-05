@@ -56,6 +56,12 @@
             this.AgencyId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AgencyName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.JobDetails = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Startjob = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EndJob = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Hours = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PaymentReceivedDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalPaymentReceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewJobs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jobBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.jODataSet)).BeginInit();
@@ -73,10 +79,16 @@
             this.EmployeeId,
             this.AgencyId,
             this.AgencyName,
-            this.JobDetails});
+            this.JobDetails,
+            this.Startjob,
+            this.EndJob,
+            this.Hours,
+            this.Rate,
+            this.PaymentReceivedDate,
+            this.TotalPaymentReceived});
             this.dataGridViewJobs.Location = new System.Drawing.Point(13, 24);
             this.dataGridViewJobs.Name = "dataGridViewJobs";
-            this.dataGridViewJobs.Size = new System.Drawing.Size(860, 481);
+            this.dataGridViewJobs.Size = new System.Drawing.Size(861, 481);
             this.dataGridViewJobs.TabIndex = 0;
             this.dataGridViewJobs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -282,6 +294,7 @@
             // 
             this.EmployeeId.HeaderText = "EmployeeId";
             this.EmployeeId.Name = "EmployeeId";
+            this.EmployeeId.Visible = false;
             // 
             // AgencyId
             // 
@@ -301,11 +314,41 @@
             this.JobDetails.HeaderText = "JobDetails";
             this.JobDetails.Name = "JobDetails";
             // 
+            // Startjob
+            // 
+            this.Startjob.HeaderText = "Startjob";
+            this.Startjob.Name = "Startjob";
+            // 
+            // EndJob
+            // 
+            this.EndJob.HeaderText = "EndJob";
+            this.EndJob.Name = "EndJob";
+            // 
+            // Hours
+            // 
+            this.Hours.HeaderText = "Hours";
+            this.Hours.Name = "Hours";
+            // 
+            // Rate
+            // 
+            this.Rate.HeaderText = "Rate";
+            this.Rate.Name = "Rate";
+            // 
+            // PaymentReceivedDate
+            // 
+            this.PaymentReceivedDate.HeaderText = "PaymentReceivedDate";
+            this.PaymentReceivedDate.Name = "PaymentReceivedDate";
+            // 
+            // TotalPaymentReceived
+            // 
+            this.TotalPaymentReceived.HeaderText = "TotalPaymentReceived";
+            this.TotalPaymentReceived.Name = "TotalPaymentReceived";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(883, 736);
+            this.ClientSize = new System.Drawing.Size(889, 736);
             this.Controls.Add(this.groupBoxEntry);
             this.Controls.Add(this.dataGridViewJobs);
             this.Name = "Form1";
@@ -351,6 +394,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AgencyId;
         private System.Windows.Forms.DataGridViewComboBoxColumn AgencyName;
         private System.Windows.Forms.DataGridViewTextBoxColumn JobDetails;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Startjob;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EndJob;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Hours;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PaymentReceivedDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalPaymentReceived;
     }
 }
 

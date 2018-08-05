@@ -35,16 +35,21 @@ namespace Russell
 
                 foreach (DataJob item in listDataJob)
                 {
-                    //DataGridViewRow row = (DataGridViewRow)dataGridViewJobs.Rows[0].Clone();
-
                     var index = dataGridViewJobs.Rows.Add();
 
-                    //row.Cells["AgencyId"].Value = item.AgencyId;
+                    dataGridViewJobs.Rows[index].Cells["JobId"].Value = item.JobId;
+                    dataGridViewJobs.Rows[index].Cells["EmployeeId"].Value = item.EmployeeId;
+                    dataGridViewJobs.Rows[index].Cells["AgencyId"].Value = item.AgencyId;
                     dataGridViewJobs.Rows[index].Cells["JobDetails"].Value = item.JobDetails;
+                    dataGridViewJobs.Rows[index].Cells["StartJob"].Value = item.StartJob;
+                    dataGridViewJobs.Rows[index].Cells["EndJob"].Value = item.EndJob;
+                    dataGridViewJobs.Rows[index].Cells["Hours"].Value = item.Hours;
+                    dataGridViewJobs.Rows[index].Cells["Rate"].Value = item.Rate;
+                    dataGridViewJobs.Rows[index].Cells["PaymentReceivedDate"].Value = item.PaymentReceivedDate;
+                    dataGridViewJobs.Rows[index].Cells["TotalPaymentReceived"].Value = item.TotalPaymentReceived;
 
 
-                    //row.Cells[dataGridViewJobs.Columns["JobDetails"].Index].Value = item.JobDetails;
-                    //dataGridViewJobs.Rows.Add(row);
+
                 }
 
             }
@@ -92,11 +97,29 @@ namespace Russell
                 dj.PaymentReceivedDate = Convert.ToDateTime(dateTimePickerPaymentReceivedDate.Value);
                 dj.TotalPaymentReceived = Convert.ToDecimal(textBoxTotalPayment.Text);
 
-                //Insert Job
+                //Insert Job to DB and dgv
                 // Function determined by the type of db we are connecting to
-                if (Constants.DBMS == "MSSQL") { newFileId = sql.SQLInsertNewJob(dj); } else { sql.OLEInsertNewJob(dj); ; }
-                //newFileId = sql.InsertNewJob(dj);
-                //MessageBox.Show(newFileId.ToString());
+                if (Constants.DBMS == "MSSQL")
+                {
+                    newFileId = sql.SQLInsertNewJob(dj);
+                }
+                else
+                {
+                    sql.OLEInsertNewJob(dj);
+                }
+
+                // Add to dgv - Or could just do a refresh of the dgv from the db??????????
+                var index = dataGridViewJobs.Rows.Add();
+                dataGridViewJobs.Rows[index].Cells["JobId"].Value = dj.JobId;
+                dataGridViewJobs.Rows[index].Cells["EmployeeId"].Value = dj.EmployeeId;
+                dataGridViewJobs.Rows[index].Cells["AgencyId"].Value = dj.AgencyId;
+                dataGridViewJobs.Rows[index].Cells["JobDetails"].Value = dj.JobDetails;
+                dataGridViewJobs.Rows[index].Cells["StartJob"].Value = dj.StartJob;
+                dataGridViewJobs.Rows[index].Cells["EndJob"].Value = dj.EndJob;
+                dataGridViewJobs.Rows[index].Cells["Hours"].Value = dj.Hours;
+                dataGridViewJobs.Rows[index].Cells["Rate"].Value = dj.Rate;
+                dataGridViewJobs.Rows[index].Cells["PaymentReceivedDate"].Value = dj.PaymentReceivedDate;
+                dataGridViewJobs.Rows[index].Cells["TotalPaymentReceived"].Value = dj.TotalPaymentReceived;
             }
         }
 
